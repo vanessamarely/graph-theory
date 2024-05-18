@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <style>
+        .link {
+            stroke: #999;
+            stroke-opacity: 0.6;
+        }
+        .node {
+            stroke: #fff;
+            stroke-width: 1.5px;
+        }
+        .label {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            fill: #333;
+        }
+    </style>
+</head>
+<body>
+<script>
+    // Define the data for the nodes and links
+    let nodes = [
+        { id: "Forest", color: "green" },
+        { id: "Mine", color: "gray" },
+        { id: "House", color: "brown" },
+        { id: "Lake", color: "blue" }
+    ];
+
+    let links = [
+        { source: "Forest", target: "Mine" },
+        { source: "Mine", target: "House" },
+        { source: "House", target: "Forest" },
+        { source: "Lake", target: "Forest" },
+        { source: "Lake", target: "House" }
+    ];
+
+    // Create the SVG
+    let svg = d3.select("body").append("svg")
+        .attr("width", 800)
+        .attr("height", 600);
+
+    // Create the link lines
+    let link = svg.selectAll(".link")
+        .data(links)
+        .enter().append("line")
+        .attr("class", "link");
+
+    // Create the node circles
+    let node = svg.selectAll(".node")
+        .data(nodes)
+        .enter().append("circle")
+        .attr("class", "node")
+        .attr("r", 20)
+        .style("fill", function(d) { return d.color; });
+
+    // Create the node labels
+    let label = svg.selectAll(".label")
+        .data(nodes)
+        .enter().append("text")
+        .attr("class", "label")
+        .text(function(d) { return d.id; });
+
+    // Create the force layout
+    let force = d3.forceSimulation(nodes)
+        .force("link", d3.forceLink(links).id(function(d) { return d.id; }).distance(function(d) {
+            let sourceConnections = links.filter(link => link.source.id === d.source.id || link.target.id === d.source.id).length;
+            let targetConnections = links.filter(link => link.source.id === d.target.id || link.target.id === d.target.id).length;
+            let maxConnections = Math.max(sourceConnections, targetConnections);
+            return 200 + maxConnections * 20; // Adjust the distance based on the number of connections
+        }))
+        .force("charge", d3.forceManyBody().strength(-200))
+        .force("center", d3.forceCenter(400, 300))
+        .on("tick", tick);
+
+    // Function to update the graph
+    function tick() {
+        link.attr("x1", function(d) { return d.source.x; })
+            .attr("y1", function(d) { return d.source.y; })
+            .attr("x2", function(d) { return d.target.x; })
+            .attr("y2", function(d) { return d.target.y; });
+
+        node.attr("cx", function(d) { return d.x; })
+            .attr("cy", function(d) { return d.y; });
+
+        label.attr("x", function(d) { return d.x; })
+             .attr("y", function(d) { return d.y; });
+    }
+</script>
+</body>
+</html>

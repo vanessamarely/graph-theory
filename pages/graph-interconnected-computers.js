@@ -98,4 +98,5 @@ function drag(simulation) {
     .on("drag", dragged)
     .on("end", dragended);
 }
+
 node.call(drag(simulation));

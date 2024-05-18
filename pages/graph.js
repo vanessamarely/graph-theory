@@ -1,7 +1,7 @@
 const width = 960;
 const height = 600;
 
-const svg = d3.select("svg").attr("width", width).attr("height", height);
+const svg = d3.select("svg");
 
 const simulation = d3
   .forceSimulation()
@@ -97,4 +97,4 @@ function updateData() {
 }
 
 // Update data every 2 seconds
-setInterval(updateData, 2000);
+setInterval(updateData, 20000);
