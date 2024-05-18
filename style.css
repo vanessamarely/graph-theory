@@ -1,0 +1,45 @@
+body {
+  font-family: Arial, sans-serif;
+}
+.node {
+  fill: #1f77b4;
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+.link {
+  stroke: #999;
+  stroke-opacity: 0.6;
+}
+h1 {
+  font-size: 24px;
+  margin: 0;
+  text-align: center;
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+li {
+  display: inline-block;
+  margin-right: 10px;
+  padding: 5px 10px;
+  background-color: #1f77b4;
+  color: #fff;
+  cursor: pointer;
+}
+
+li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+p {
+  margin: 0;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  text-align: center;
+}
